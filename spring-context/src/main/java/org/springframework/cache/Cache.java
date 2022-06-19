@@ -37,11 +37,13 @@ public interface Cache {
 	/**
 	 * Return the cache name.
 	 */
+	// 缓存的名字
 	String getName();
 
 	/**
 	 * Return the underlying native cache provider.
 	 */
+	// 得到底层使用的缓存，如Ehcache
 	Object getNativeCache();
 
 	/**
@@ -57,6 +59,7 @@ public interface Cache {
 	 * @see #get(Object, Class)
 	 * @see #get(Object, Callable)
 	 */
+	// 根据key得到一个ValueWrapper，然后调用其get方法获取值
 	@Nullable
 	ValueWrapper get(Object key);
 
@@ -78,6 +81,7 @@ public interface Cache {
 	 * @since 4.0
 	 * @see #get(Object)
 	 */
+	// 根据key和value的类型直接获取value
 	@Nullable
 	<T> T get(Object key, @Nullable Class<T> type);
 
@@ -97,6 +101,7 @@ public interface Cache {
 	 * @since 4.3
 	 * @see #get(Object)
 	 */
+	//
 	@Nullable
 	<T> T get(Object key, Callable<T> valueLoader);
 
@@ -112,6 +117,7 @@ public interface Cache {
 	 * @param value the value to be associated with the specified key
 	 * @see #putIfAbsent(Object, Object)
 	 */
+	// 往缓存中放数据
 	void put(Object key, @Nullable Object value);
 
 	/**
@@ -141,6 +147,7 @@ public interface Cache {
 	 * @since 4.1
 	 * @see #put(Object, Object)
 	 */
+	// 为空则存入，不为空直接取出
 	@Nullable
 	default ValueWrapper putIfAbsent(Object key, @Nullable Object value) {
 		ValueWrapper existingValue = get(key);
@@ -159,6 +166,7 @@ public interface Cache {
 	 * @param key the key whose mapping is to be removed from the cache
 	 * @see #evictIfPresent(Object)
 	 */
+	// 从缓存中移除key对应的缓存
 	void evict(Object key);
 
 	/**
@@ -177,6 +185,7 @@ public interface Cache {
 	 * @since 5.2
 	 * @see #evict(Object)
 	 */
+	// 已从缓存中移除key对应的缓存
 	default boolean evictIfPresent(Object key) {
 		evict(key);
 		return false;
@@ -190,6 +199,7 @@ public interface Cache {
 	 * Use {@link #invalidate()} for guaranteed immediate removal of entries.
 	 * @see #invalidate()
 	 */
+	// 清空缓存
 	void clear();
 
 	/**
@@ -201,6 +211,7 @@ public interface Cache {
 	 * @since 5.2
 	 * @see #clear()
 	 */
+	// 清空缓存
 	default boolean invalidate() {
 		clear();
 		return false;

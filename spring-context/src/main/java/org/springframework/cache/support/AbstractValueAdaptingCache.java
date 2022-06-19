@@ -40,6 +40,7 @@ public abstract class AbstractValueAdaptingCache implements Cache {
 	 * Create an {@code AbstractValueAdaptingCache} with the given setting.
 	 * @param allowNullValues whether to allow for {@code null} values
 	 */
+	// 是否允许空值
 	protected AbstractValueAdaptingCache(boolean allowNullValues) {
 		this.allowNullValues = allowNullValues;
 	}
@@ -48,6 +49,7 @@ public abstract class AbstractValueAdaptingCache implements Cache {
 	/**
 	 * Return whether {@code null} values are allowed in this cache.
 	 */
+	// 是否允许空值
 	public final boolean isAllowNullValues() {
 		return this.allowNullValues;
 	}
@@ -75,6 +77,7 @@ public abstract class AbstractValueAdaptingCache implements Cache {
 	 * @param key the key whose associated value is to be returned
 	 * @return the raw store value for the key, or {@code null} if none
 	 */
+	// 执行实际的查找
 	@Nullable
 	protected abstract Object lookup(Object key);
 
@@ -85,6 +88,7 @@ public abstract class AbstractValueAdaptingCache implements Cache {
 	 * @param storeValue the store value
 	 * @return the value to return to the user
 	 */
+	// 转换Cache数据
 	@Nullable
 	protected Object fromStoreValue(@Nullable Object storeValue) {
 		if (this.allowNullValues && storeValue == NullValue.INSTANCE) {
@@ -99,6 +103,7 @@ public abstract class AbstractValueAdaptingCache implements Cache {
 	 * @param userValue the given user value
 	 * @return the value to store
 	 */
+	// 转换数据为Cache数据
 	protected Object toStoreValue(@Nullable Object userValue) {
 		if (userValue == null) {
 			if (this.allowNullValues) {

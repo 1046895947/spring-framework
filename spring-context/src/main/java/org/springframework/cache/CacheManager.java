@@ -39,6 +39,7 @@ public interface CacheManager {
 	 * @return the associated cache, or {@code null} if such a cache
 	 * does not exist or could be not created
 	 */
+	// 获取Cache
 	@Nullable
 	Cache getCache(String name);
 
@@ -46,6 +47,7 @@ public interface CacheManager {
 	 * Get a collection of the cache names known by this manager.
 	 * @return the names of all caches known by the cache manager
 	 */
+	// 获取缓存名称
 	Collection<String> getCacheNames();
 
 }

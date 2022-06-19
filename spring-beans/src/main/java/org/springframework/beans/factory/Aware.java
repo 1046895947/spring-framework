@@ -17,6 +17,8 @@
 package org.springframework.beans.factory;
 
 /**
+ * Aware接口有什么作用？
+ * 当Spring容器创建bean对象在进行具体操作的时候如果需要容器的其他对象，此时可以将对象实现Aware接口，来满足当前的需求
  * A marker superinterface indicating that a bean is eligible to be notified by the
  * Spring container of a particular framework object through a callback-style method.
  * The actual method signature is determined by individual subinterfaces but should

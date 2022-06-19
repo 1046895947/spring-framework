@@ -56,3 +56,20 @@ settings.gradle.projectsLoaded {
 		}
 	}
 }
+
+settings.gradle.projectsLoaded {
+	gradleEnterprise {
+		buildScan {
+			File buildDir = settings.gradle.rootProject.getBuildDir()
+			buildDir.mkdirs()
+			new File(buildDir, "build-scan-uri.txt").text = "(build scan not generated)"
+			buildScanPublished { scan ->
+				if (buildDir.exists()) {
+					new File(buildDir, "build-scan-uri.txt").text = "${scan.buildScanUri}\n"
+				}
+			}
+		}
+	}
+}
+include 'spring-debugger'
+

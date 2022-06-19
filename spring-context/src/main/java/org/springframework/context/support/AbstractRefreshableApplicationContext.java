@@ -65,6 +65,7 @@ import org.springframework.lang.Nullable;
 public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext {
 
 	@Nullable
+	/**  */
 	private Boolean allowBeanDefinitionOverriding;
 
 	@Nullable
@@ -119,14 +120,20 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
+		// 如果存在BeanFactory，则销毁BeanFactory
 		if (hasBeanFactory()) {
 			destroyBeans();
 			closeBeanFactory();
 		}
 		try {
+			// 创建DefaultListableBeanFactory对象，初始化一些默认值
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
+			// 为了序列化，指定id,可以从id反序列化到BeanFactory对象,AbstractApplicationContext中的id值
 			beanFactory.setSerializationId(getId());
+			// 扩展点
+			// 定制BeanFactory，设置相关属性，包括是否允许覆盖同名称的不同定义的对象以及循环依赖
 			customizeBeanFactory(beanFactory);
+			// 初始化documentReader，并进行XML文件读取及解析
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
 		}
@@ -207,14 +214,16 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * {@link DefaultListableBeanFactory}'s settings.
 	 * @param beanFactory the newly created bean factory for this context
 	 * @see DefaultListableBeanFactory#setAllowBeanDefinitionOverriding
-	 * @see DefaultListableBeanFactory#setAllowCircularReferences
+	 * @see DefaultListableBeanFactory#setAllowCircularReferencesf
 	 * @see DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
 	 * @see DefaultListableBeanFactory#setAllowEagerClassLoading
 	 */
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
+		// 如果属性值allowBeanDefinitionOverriding不为空，设置给BeanFactory对象相应属性，是否允许覆盖同名称的不同定义的对象(默认为true)
 		if (this.allowBeanDefinitionOverriding != null) {
 			beanFactory.setAllowBeanDefinitionOverriding(this.allowBeanDefinitionOverriding);
 		}
+		// 如果属性allowCircularReferences不为空，社会给BeanFactory对象相应属性，是否允许bean之间存在循环依赖(默认为true)
 		if (this.allowCircularReferences != null) {
 			beanFactory.setAllowCircularReferences(this.allowCircularReferences);
 		}
